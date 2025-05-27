@@ -2,66 +2,39 @@
 
 A new Flutter project.
 
-# Flutter E-Commerce App with Admin Panel
+# 🛒 Flutter E-Commerce App with Admin Panel
 
-A basic Flutter e-commerce app with user shopping features and an admin panel for product management.
+A full-featured E-Commerce mobile application built with **Flutter**, powered by **Firebase** and paired with a responsive **Admin Panel** for product management.
 
----
+## ✨ Features
 
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Folder Structure](#folder-structure)
-- [How to Use](#how-to-use)
-- [Contributions](#contributions)
-- [License](#license)
-- [Contact](#contact)
-
----
-
-## Features
-
-### User Side
-- Browse product catalog
-- View product details
-- Add/remove products in cart
-- Place orders
-- User authentication (Sign Up / Sign In)
-- View order history
+### User App
+- User Registration (Phone or Email + Password)
+- Login with Phone or Email
+- Product Browsing & Categories
+- Cart Management
+- Checkout & Order Placement
+- Order History
+- Profile Management
 
 ### Admin Panel
-- Admin login
-- Add, edit, delete products
-- Manage product inventory
-- View all user orders
+- Product Add/Edit/Delete
 
----
+## 📦 Tech Stack
+- **Frontend (Mobile)**: Flutter + GetX  
+- **Backend**: Firebase (Firestore, Storage)  
+- **Authentication**: Custom authentication using Phone/Email + Password with **Bcrypt password hashing**  
+- **Database**: Cloud Firestore  
 
-## Tech Stack
-
-- Flutter (Dart)
-- Firebase Authentication (optional)
-- Firebase Firestore (or other backend)
-- State management: Provider / GetX / Bloc (choose one)
-- Flutter Web (optional for admin panel)
-
----
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
+- Flutter SDK
+- Firebase Project
+- Twilio Account (for phone OTPs)
 
-- Flutter SDK installed ([Flutter installation guide](https://flutter.dev/docs/get-started/install))
-- Firebase project (if Firebase is used)
-- IDE like Android Studio, VS Code, or IntelliJ
-
-### Installation
-
-1. **Clone the repo:**
-   ```bash
-   git clone https://github.com/yourusername/flutter-ecommerce-admin.git
-   cd flutter-ecommerce-admin
+### ▶️ Run Project
+```bash
+cd ecommerce
+flutter pub get
+flutter run
