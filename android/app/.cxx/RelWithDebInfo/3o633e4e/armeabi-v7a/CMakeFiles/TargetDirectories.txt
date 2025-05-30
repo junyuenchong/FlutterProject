@@ -1,0 +1,2 @@
+C:/Users/junyu/Documents/FlutterProject/ecommerce/android/app/.cxx/RelWithDebInfo/3o633e4e/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/junyu/Documents/FlutterProject/ecommerce/android/app/.cxx/RelWithDebInfo/3o633e4e/armeabi-v7a/CMakeFiles/rebuild_cache.dir

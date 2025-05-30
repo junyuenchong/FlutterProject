@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901903204573",
+    "project_id": "rapid-project-4b0ae",
+    "storage_bucket": "rapid-project-4b0ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901903204573:android:c0a68883b0471eea1ddb34",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQq7MiDg3QMXKdpwvedxuaAkhQrvRfpbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
