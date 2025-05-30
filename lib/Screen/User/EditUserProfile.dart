@@ -9,11 +9,16 @@ class UpdateProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginController controller = Get.find<LoginController>();
+<<<<<<< HEAD
 
     // Create the controller once
     final TextEditingController nameController = TextEditingController();
 
     // Also create other controllers
+=======
+    final TextEditingController nameController =
+        TextEditingController(text: controller.loginUser?.name ?? '');
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -30,6 +35,7 @@ class UpdateProfilePage extends StatelessWidget {
               'Name',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
+<<<<<<< HEAD
             Obx(() {
               final name = controller.loginUser.value?.name ?? '';
               // Only update text if different to avoid cursor jump
@@ -47,6 +53,18 @@ class UpdateProfilePage extends StatelessWidget {
                 ),
               );
             }),
+=======
+            TextField(
+              controller: nameController,
+              enabled: false,
+              decoration: InputDecoration(
+                hintText: 'Your name',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
             const SizedBox(height: 16),
             const Text(
               'New Password',
@@ -83,9 +101,15 @@ class UpdateProfilePage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   controller.updateUserPassword(
+<<<<<<< HEAD
                     context,
                     passwordController,
                     confirmPasswordController,
+=======
+                     context, // pass context here
+                    passwordController.text.trim(),
+                    confirmPasswordController.text.trim(),
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                   );
                 },
                 child: const Text('Update Password'),

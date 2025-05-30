@@ -1,12 +1,18 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/model/product/product.dart';
+<<<<<<< HEAD
 import 'package:ecommerce/widgets/alert.dart';
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+<<<<<<< HEAD
 import 'package:crypto/crypto.dart';
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 
 class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -36,6 +42,7 @@ class HomeController extends GetxController {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
+<<<<<<< HEAD
       productImgPath = image.path; // show local image
       update();
 
@@ -43,10 +50,20 @@ class HomeController extends GetxController {
       if (imageUrl.isNotEmpty) {
         productImgPath = imageUrl;
         update(); // show image from Firebase
+=======
+      productImgPath = image.path; // local path
+      update(); // show local image immediately
+
+      String? imageUrl = await uploadImageToFirebase(image);
+      if (imageUrl.isNotEmpty) {
+        productImgPath = imageUrl; // URL from firebase
+        update(); // important! update UI again to show image from URL
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       }
     }
   }
 
+<<<<<<< HEAD
 Future<String> uploadImageToFirebase(XFile image,
       {String fileName = 'product_image.jpg'}) async {
     try {
@@ -85,6 +102,29 @@ Future<String> uploadImageToFirebase(XFile image,
   }
 
 
+=======
+  Future<String> uploadImageToFirebase(XFile image) async {
+    try {
+      File file = File(image.path);
+      String fileName =
+          'images/${DateTime.now().millisecondsSinceEpoch}_${image.name}';
+      Reference ref = FirebaseStorage.instance.ref(fileName);
+
+      // Upload the file
+      await ref.putFile(file);
+      print("Image uploaded successfully: $fileName");
+
+      // Get the download URL
+      String downloadUrl = await ref.getDownloadURL();
+      print("Download URL: $downloadUrl");
+      return downloadUrl; // Return the download URL
+    } catch (e) {
+      print("Error uploading image: $e");
+      return ''; // Return an empty string on error
+    }
+  }
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
   Future<void> addProduct() async {
     try {
       DocumentReference doc = productCollection.doc();
@@ -125,6 +165,7 @@ Future<String> uploadImageToFirebase(XFile image,
     }
   }
 
+<<<<<<< HEAD
 Future<void> deleteProduct(String id, BuildContext context) async {
     try {
       // Delete product from Firestore
@@ -158,10 +199,21 @@ Future<void> deleteProduct(String id, BuildContext context) async {
       print("✅ All images deleted from Firebase Storage.");
     } catch (e) {
       print("❌ Error deleting images: $e");
+=======
+  Future<void> deleteProduct(String id) async {
+    try {
+      await productCollection.doc(id).delete();
+      fetchProducts(); // Fetch products after deleting a product
+      setValuesDefault();
+    } catch (err) {
+      Get.snackbar('Error', err.toString(), colorText: Colors.red);
+      print(err);
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     }
   }
 
   Future<void> updateProduct(BuildContext context, String id) async {
+<<<<<<< HEAD
     void showError(String message) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message), backgroundColor: Colors.purpleAccent),
@@ -179,6 +231,9 @@ Future<void> deleteProduct(String id, BuildContext context) async {
         }
       }
 
+=======
+    try {
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       Product updatedProduct = Product(
         id: id,
         name: productNameCtrl.text,
@@ -186,11 +241,16 @@ Future<void> deleteProduct(String id, BuildContext context) async {
         description: productDescriptionCtrl.text,
         price: double.tryParse(productPriceCtrl.text),
         brand: brand,
+<<<<<<< HEAD
         image: finalImageUrl,
+=======
+        image: productImgPath, // This should now be a URL
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
         offer: offer,
       );
 
       await productCollection.doc(id).update(updatedProduct.toJson());
+<<<<<<< HEAD
       await fetchProducts();
        Navigator.pop(context);
       return showError(
@@ -202,6 +262,16 @@ Future<void> deleteProduct(String id, BuildContext context) async {
     } catch (err) {
       Get.snackbar('Error', err.toString(), colorText: Colors.red);
       print(err);
+=======
+      Get.snackbar('Success', 'Product updated successfully',
+          colorText: Colors.green);
+      fetchProducts();
+
+      // Pop the current screen after a successful update
+      Navigator.pop(context);
+    } catch (err) {
+      Get.snackbar('Error', err.toString(), colorText: Colors.red);
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     }
   }
 
@@ -211,6 +281,10 @@ Future<void> deleteProduct(String id, BuildContext context) async {
     productDescriptionCtrl.clear();
     productPriceCtrl.clear();
     productImgPath = null; // Reset image path to null
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     category = 'general';
     brand = 'un brand';
     offer = false;

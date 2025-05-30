@@ -120,7 +120,11 @@ class AddProductPage extends StatelessWidget {
                   item: const ['true', 'false'],
                   selectedItemText: ctrl.offer.toString(),
                   onSelected: (selectedValue) {
+<<<<<<< HEAD
                     ctrl.offer = bool.parse(selectedValue ?? 'false');
+=======
+                    ctrl.offer = bool.parse(selectedValue ?? 'false') ?? false;
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                     ctrl.update();
                   },
                 ),

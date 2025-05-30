@@ -5,11 +5,15 @@ import 'package:ecommerce/model/user/user.dart' as AppUser;
 import 'package:ecommerce/services/email_service.dart';
 import 'package:ecommerce/services/twilio_service.dart';
 import 'package:ecommerce/widgets/CryptPassword.dart';
+<<<<<<< HEAD
 import 'package:ecommerce/widgets/alert.dart';
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field_v2/otp_field_v2.dart';
+<<<<<<< HEAD
 
 class LoginController extends GetxController {
   final GetStorage box = GetStorage(); // Local storage instance
@@ -18,6 +22,16 @@ class LoginController extends GetxController {
   late CollectionReference userCollection; // Firestore user collection ref
 
 // Text controllers for registration and login inputs
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+
+class LoginController extends GetxController {
+  final GetStorage box = GetStorage();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  late CollectionReference userCollection;
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
   final TextEditingController registerNameCtrl = TextEditingController();
   final TextEditingController registerNumberCtrl = TextEditingController();
   final TextEditingController registerPasswordCtrl = TextEditingController();
@@ -27,6 +41,7 @@ class LoginController extends GetxController {
   final TextEditingController loginNumberCtrl = TextEditingController();
   final TextEditingController loginPasswordCtrl = TextEditingController();
 
+<<<<<<< HEAD
   final OtpFieldControllerV2 otpController =
       OtpFieldControllerV2(); // OTP input controller
 
@@ -50,6 +65,22 @@ class LoginController extends GetxController {
     if (user != null) {
       loginUser.value = AppUser.User.fromJson(user);
       // Navigate to the user's home page
+=======
+  final OtpFieldControllerV2 otpController = OtpFieldControllerV2();
+  bool otpFieldShown = false;
+  int? otpSend;
+  int? otpEnter;
+  String verificationMethod = 'phone'; // default is phone
+
+  AppUser.User? loginUser;
+  final TextEditingController _emailController = TextEditingController();
+  final String _verificationCode = "";
+  @override
+  void onReady() {
+    final user = box.read('loginUser');
+    if (user != null) {
+      loginUser = AppUser.User.fromJson(user);
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       Get.to(() => const UserHomePage());
     }
     super.onReady();
@@ -57,22 +88,49 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
+<<<<<<< HEAD
     // Set Firestore 'users' collection reference and call super.onInit
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     userCollection = firestore.collection('users');
     super.onInit();
   }
 
+<<<<<<< HEAD
   // Update the verification method (e.g., 'email' or 'phone')// Update the verification method (e.g., 'email' or 'phone')
   void setVerificationMethod(String method) {
     verificationMethod.value = method;
+=======
+  void setVerificationMethod(String method) {
+    verificationMethod = method;
+    update();
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
   }
 
   Future<void> sendOtp(BuildContext context) async {
     try {
+<<<<<<< HEAD
+=======
+      // Validate name
+      if (registerNameCtrl.text.isEmpty) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please enter your name'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'))
+          ],
+        ));
+        return;
+      }
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       // Generate OTP
       final random = Random();
       int otp = 1000 + random.nextInt(9000);
       otpSend = otp;
+<<<<<<< HEAD
 
       /*                                                         */
       /*                verificationMethod = phone               */
@@ -169,11 +227,110 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       Alert.show(context, 'Error', 'Failed to send OTP: $e');
+=======
+      otpFieldShown = true;
+
+      // Decide based on verification method
+      if (verificationMethod == 'phone') {
+        if (registerNumberCtrl.text.isEmpty) {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please enter phone number'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'))
+            ],
+          ));
+          return;
+        }
+
+        final completePhone = registerNumberCtrl.text.trim();
+        final fullPhoneNumber =
+            completePhone.startsWith('+') ? completePhone : '+$completePhone';
+
+        final sent = await TwilioService.sendOtp(fullPhoneNumber, otp);
+        if (sent) {
+          Get.dialog(AlertDialog(
+            title: const Text('OTP Sent'),
+            content: Text('OTP sent to $fullPhoneNumber'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              )
+            ],
+          ));
+        } else {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: Text('Failed to send OTP via Twilio'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              )
+            ],
+          ));
+        }
+      } else {
+        if (registerEmailCtrl.text.isEmpty) {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please enter email'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              )
+            ],
+          ));
+          return;
+        }
+
+        final email = registerEmailCtrl.text.trim();
+        final sent =
+            await EmailService.sendOtp(email, otp); // You implement this
+        if (sent) {
+          Get.dialog(AlertDialog(
+            title: const Text('OTP Sent'),
+            content: Text('OTP sent to $email'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'))
+            ],
+          ));
+        } else {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: Text('Failed to send OTP via Email'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'))
+            ],
+          ));
+        }
+      }
+    } catch (e) {
+      Get.dialog(AlertDialog(
+        title: const Text('Error'),
+        content: Text('Failed to send OTP: $e'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+        ],
+      ));
+    } finally {
+      update();
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     }
   }
 
   Future<void> addUser(BuildContext context) async {
     try {
+<<<<<<< HEAD
       final password = registerPasswordCtrl.text;
       // Encrypt the password before saving
       String encryptedPassword = PasswordUtils.hashPassword(password);
@@ -257,11 +414,139 @@ class LoginController extends GetxController {
       Alert.show(context, 'Success', 'User added successfully');
     } catch (err) {
       Alert.show(context, 'Error', 'Failed to register user');
+=======
+      // Check if passwords match
+      if (registerPasswordCtrl.text != registerConfirmPasswordCtrl.text) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('Passwords do not match'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      // Check OTP
+      if (otpSend != otpEnter) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('OTP is incorrect'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      // Validate based on verification method
+      if (verificationMethod == 'email' &&
+          registerEmailCtrl.text.trim().isEmpty) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('Email cannot be empty'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      if (verificationMethod == 'phone' &&
+          registerNumberCtrl.text.trim().isEmpty) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('Phone number cannot be empty'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      // Hash password for storing in Firestore
+      String encryptedPassword =
+          PasswordUtils.hashPassword(registerPasswordCtrl.text);
+
+      // Prepare Firestore user document
+      DocumentReference doc = userCollection.doc();
+
+      String email =
+          verificationMethod == 'email' ? registerEmailCtrl.text.trim() : '';
+      String phoneText = registerNumberCtrl.text.trim();
+      int? phone = int.tryParse(phoneText);
+      if (phone == null || phoneText.length < 7) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('Invalid phone number format'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      AppUser.User user = AppUser.User(
+        id: doc.id,
+        name: registerNameCtrl.text.trim(),
+        number: phone,
+        password: encryptedPassword,
+        email: email.isNotEmpty ? email : null,
+      );
+
+      // Register in FirebaseAuth if using email
+      // if (verificationMethod == 'email') {
+      //   try {
+      //     await auth.createUserWithEmailAndPassword(
+      //       email: email,
+      //       password: registerPasswordCtrl.text.trim(),
+      //     );
+      //   } on FirebaseAuthException catch (e) {
+      //     Get.snackbar('Firebase Error', e.message ?? 'Unknown error',
+      //         colorText: Colors.red);
+      //     return;
+      //   }
+      // }
+
+      // Save user to Firestore
+      await doc.set(user.toJson());
+
+      Get.dialog(AlertDialog(
+        title: const Text('Success'),
+        content: Text('User added successfully'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+        ],
+      ));
+
+      _clearRegisterFields(); // Reset form fields
+    } catch (err) {
+      Get.dialog(AlertDialog(
+        title: const Text('Error'),
+        content: Text('Failed to register user'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+        ],
+      ));
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     }
   }
 
   Future<void> loginWithPhoneOrEmail(BuildContext context) async {
     try {
+<<<<<<< HEAD
       /*                                                         */
       /*     Set Identifier and Password Text Fields             */
       /*                                                         */
@@ -293,11 +578,34 @@ class LoginController extends GetxController {
         }
 
         // Email login
+=======
+      String identifier = loginNumberCtrl.text.trim();
+      String password = loginPasswordCtrl.text.trim();
+
+      if (identifier.isEmpty || password.isEmpty) {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('Please enter both identifier and password'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+        return;
+      }
+
+      QuerySnapshot querySnapshot;
+
+      if (identifier.contains('@')) {
+        // Login by Email
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
         querySnapshot = await userCollection
             .where('email', isEqualTo: identifier)
             .limit(1)
             .get();
       } else {
+<<<<<<< HEAD
         // Validate phone number format (must be 11 digits starting with 60)
         if (!RegExp(r'^60\d{9,11}$').hasMatch(identifier)) {
           Alert.show(context, 'Error',
@@ -307,12 +615,29 @@ class LoginController extends GetxController {
         // Phone login - ensure valid phone number format
         final phone = int.tryParse(identifier);
         // Phone login
+=======
+        // Login by Phone
+        int? phone = int.tryParse(identifier);
+        if (phone == null) {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: Text('Invalid phone number format'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'))
+            ],
+          ));
+          return;
+        }
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
         querySnapshot = await userCollection
             .where('number', isEqualTo: phone)
             .limit(1)
             .get();
       }
 
+<<<<<<< HEAD
       // Check if any user document was returned from Firestore
       if (querySnapshot.docs.isEmpty) {
         // If no user is found, show error and return early
@@ -358,10 +683,67 @@ class LoginController extends GetxController {
       loginPasswordCtrl.clear();
     } catch (e) {
       return Alert.show(context, 'Error', 'Failed to login: ${e.toString()}');
+=======
+      if (querySnapshot.docs.isNotEmpty) {
+        var userData = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        String storedHashedPassword = userData['password'];
+        bool isPasswordValid =
+            PasswordUtils.verifyPassword(password, storedHashedPassword);
+
+        if (isPasswordValid) {
+          box.write('loginUser', userData);
+          loginUser = AppUser.User.fromJson(userData);
+
+          loginNumberCtrl.clear();
+          loginPasswordCtrl.clear();
+
+          Get.offAll(() => const UserHomePage());
+          Get.dialog(AlertDialog(
+            title: const Text('Success'),
+            content: Text('Login Successful'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'))
+            ],
+          ));
+        } else {
+          Get.dialog(AlertDialog(
+            title: const Text('Error'),
+            content: Text('Incorrect password'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'))
+            ],
+          ));
+        }
+      } else {
+        Get.dialog(AlertDialog(
+          title: const Text('Error'),
+          content: Text('User not found, please register'),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
+          ],
+        ));
+      }
+    } catch (error) {
+      Get.dialog(AlertDialog(
+        title: const Text('Error'),
+        content: Text('Failed to login: ${error.toString()}'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+        ],
+      ));
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     }
   }
 
   Future<void> updateUserPassword(
+<<<<<<< HEAD
       BuildContext context,
       TextEditingController passwordController,
       TextEditingController confirmPasswordController) async {
@@ -439,6 +821,70 @@ class LoginController extends GetxController {
       confirmPasswordController.clear();
       
       // Show success message
+=======
+      BuildContext context, String password, String confirmPassword) async {
+    try {
+      if (loginUser == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No logged-in user found'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      if (password.isEmpty || confirmPassword.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Both fields are required'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      // Password format validation
+      final passwordRegex = RegExp(
+          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
+      if (!passwordRegex.hasMatch(password)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Password must be at least 8 characters and include:\n'
+              '- Uppercase letter\n'
+              '- Lowercase letter\n'
+              '- Number\n'
+              '- Special character',
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 5),
+          ),
+        );
+        return;
+      }
+
+      if (password != confirmPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Passwords do not match'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      String hashedPassword = PasswordUtils.hashPassword(password);
+
+      await userCollection.doc(loginUser!.id).update({
+        'password': hashedPassword,
+      });
+
+      loginUser!.password = hashedPassword;
+      box.write('loginUser', loginUser!.toJson());
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Password updated successfully'),
@@ -446,24 +892,66 @@ class LoginController extends GetxController {
         ),
       );
     } catch (e) {
+<<<<<<< HEAD
       // Handle any unexpected errors
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to update password: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
+<<<<<<< HEAD
     }
   }
 
   void clearRegisterFields() {
+=======
+    } finally {
+      update();
+    }
+  }
+
+  void _clearRegisterFields() {
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
     registerNameCtrl.clear();
     registerNumberCtrl.clear();
     registerPasswordCtrl.clear();
     registerConfirmPasswordCtrl.clear();
     registerEmailCtrl.clear();
     otpController.clear();
+<<<<<<< HEAD
     otpFieldShown.value = false;
     showChangeLink.value = false;
   }
 }
+=======
+    otpFieldShown = false;
+  }
+} 
+
+
+  
+
+
+
+
+  
+
+//   Future<void> sendPasswordResetLink(String email) async {
+//   try {
+//     if (email.isEmpty) {
+//       Get.snackbar('Error', 'Please enter your email', colorText: Colors.red);
+//       return;
+//     }
+
+//     await auth.sendPasswordResetEmail(email: email);
+//     Get.snackbar('Success', 'Password reset email sent.', colorText: Colors.green);
+//   } catch (e) {
+//     print("Error: $e");
+//     Get.snackbar('Error', 'Failed to send password reset email', colorText: Colors.red);
+//   }
+// }
+
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615

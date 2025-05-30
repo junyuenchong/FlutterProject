@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'dart:io';
 
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/model/order/order.dart';
 import 'package:ecommerce/widgets/address.dart';
@@ -12,11 +15,14 @@ import 'package:ecommerce/Screen/User/checkout.dart';
 
 class AddToCartPage extends StatelessWidget {
   const AddToCartPage({super.key});
+<<<<<<< HEAD
   bool isUrl(String? imageUrl) {
     if (imageUrl == null || imageUrl.isEmpty) return false;
     Uri uri = Uri.tryParse(imageUrl) ?? Uri();
     return uri.hasScheme && (uri.isScheme('http') || uri.isScheme('https'));
   }
+=======
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +36,12 @@ class AddToCartPage extends StatelessWidget {
           body: const Center(
             child: Text('No items in your cart'),
           ),
+<<<<<<< HEAD
           bottomNavigationBar:
               const CustomBottomNavBar(), // Add nav bar for empty cart case
+=======
+          bottomNavigationBar: const CustomBottomNavBar(), // Add nav bar for empty cart case
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
         );
       }
 
@@ -43,8 +53,12 @@ class AddToCartPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
+<<<<<<< HEAD
               child: Obx(() => Text(
                     "Default address: ${ctrl.calldefaultAddress.value ?? 'No default address set'}",
+=======
+              child: Obx(() => Text( "Default address: ${ctrl.calldefaultAddress.value ?? 'No default address set'}",
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                     style: const TextStyle(fontSize: 16),
                   )),
             ),
@@ -63,6 +77,7 @@ class AddToCartPage extends StatelessWidget {
                   return Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
+<<<<<<< HEAD
                       leading: isUrl(order.image)
                           ? Image.network(
                               order.image ?? '',
@@ -78,6 +93,9 @@ class AddToCartPage extends StatelessWidget {
                               fit: BoxFit
                                   .cover, // Adjust how the image should be inscribed into the box
                             ),
+=======
+                      leading: Image.network(order.image ?? ''),
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                       title: Text(order.name ?? ''),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,8 +173,12 @@ class AddToCartPage extends StatelessWidget {
                       name: item.name,
                       quantity: item.quantity,
                       paymentstatus: "pending",
+<<<<<<< HEAD
                       address: ctrl
                           .defaultAddress.value, // Use the default address here
+=======
+                       address: ctrl.defaultAddress.value, // Use the default address here
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                       customer: userName,
                       dateTime: Timestamp.now(),
                     );
@@ -164,13 +186,21 @@ class AddToCartPage extends StatelessWidget {
 
                   // Pass the list of orders for checkout
                   ctrl.UserCheckout(orders);
+<<<<<<< HEAD
                   Get.to(() => Checkout());
+=======
+                  Get.to(() =>Checkout());
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                 },
               ),
             ),
             const CustomBottomNavBar(), // Add the custom navigation bar here
           ],
         ),
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
       );
     });
   }
@@ -183,6 +213,7 @@ class AddToCartPage extends StatelessWidget {
         return AlertDialog(
           title: const Text('Manage Address'),
           content: SizedBox(
+<<<<<<< HEAD
             width:
                 MediaQuery.of(context).size.width * 0.5, // 80% of screen width
             height: MediaQuery.of(context).size.height *
@@ -195,6 +226,19 @@ class AddToCartPage extends StatelessWidget {
               child: const Text('Add Address'),
               onPressed: () {},
             ),
+=======
+          width: MediaQuery.of(context).size.width * 0.5, // 80% of screen width
+          height: MediaQuery.of(context).size.height * 0.2, // 60% of screen height
+          child: AddressManagement(), // A widget to handle the list of addresses
+        ), // A widget to handle the list of addresses
+          actions: <Widget>[
+            TextButton(
+            child: const Text('Add Address'),
+            onPressed: () {
+
+            },
+          ),
+>>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
             TextButton(
               child: const Text('Close'),
               onPressed: () {
