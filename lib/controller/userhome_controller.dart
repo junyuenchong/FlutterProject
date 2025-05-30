@@ -22,7 +22,7 @@ class UserhomeController extends GetxController {
   }
 
   // Fetch products from Firestore
-  fetchProducts() async {
+  Future<void> fetchProducts() async {
     try {
       QuerySnapshot productSnapshot = await productCollection.get();
       final List<Product> retrievedProducts = productSnapshot.docs
@@ -41,7 +41,7 @@ class UserhomeController extends GetxController {
   }
 
   // Fetch product categories
-  fetchCategory() async {
+  Future<void> fetchCategory() async {
     try {
       QuerySnapshot categorySnapshot = await categoryCollection.get();
       final List<ProductCategory> retrievedCategories = categorySnapshot.docs
@@ -59,7 +59,7 @@ class UserhomeController extends GetxController {
   }
 
   // Filter products by category
-  filterByCategory(String category) {
+  void filterByCategory(String category) {
     productShowInUI.clear();
     if (category == 'all') {
       productShowInUI.assignAll(products); // Show all products
@@ -70,7 +70,7 @@ class UserhomeController extends GetxController {
   }
 
   // Filter products by selected brands
-  filterByBrand(List<String> brands) {
+  void filterByBrand(List<String> brands) {
     if (brands.isNotEmpty) {
       List<String> lowerCaseBrands = brands.map((brand) => brand.toLowerCase()).toList();
 
@@ -85,7 +85,7 @@ class UserhomeController extends GetxController {
   }
 
   // Sort products by price (ascending or descending)
-  sortByPrice({required bool ascending}) {
+  void sortByPrice({required bool ascending}) {
     List<Product> sortedProducts = List<Product>.from(productShowInUI);
     sortedProducts.sort((a, b) => ascending
         ? a.price!.compareTo(b.price!)
@@ -95,7 +95,7 @@ class UserhomeController extends GetxController {
   }
 
   // Search for products by query
-  search(String query) {
+  void search(String query) {
     if (query.isEmpty) {
       productShowInUI.assignAll(products);
     } else {

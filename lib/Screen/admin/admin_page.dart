@@ -75,14 +75,10 @@ class HomePage extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-<<<<<<< HEAD
                           ctrl.deleteProduct(
                             ctrl.products[index].id ?? '',
                             context,
                           );
-=======
-                          ctrl.deleteProduct(ctrl.products[index].id ?? '');
->>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                         },
                       ),
                     ],

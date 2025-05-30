@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import 'dart:io';
 
-=======
->>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
 import 'package:ecommerce/controller/userpurchase_controller.dart';
 import 'package:ecommerce/widgets/CustomBottomNavBar.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +10,12 @@ class Checkout extends StatelessWidget {
 
   Checkout({super.key});
 
-<<<<<<< HEAD
   bool isUrl(String? imageUrl) {
     if (imageUrl == null || imageUrl.isEmpty) return false;
     Uri uri = Uri.tryParse(imageUrl) ?? Uri();
     return uri.hasScheme && (uri.isScheme('http') || uri.isScheme('https'));
   }
 
-=======
->>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +58,6 @@ class Checkout extends StatelessWidget {
                             order.image != null
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
-<<<<<<< HEAD
                                     child: isUrl(order.image)
                                         ? Image.network(
                                             order.image ?? '',
@@ -80,14 +73,6 @@ class Checkout extends StatelessWidget {
                                             fit: BoxFit
                                                 .cover, // Adjust how the image should be inscribed into the box
                                           ),
-=======
-                                    child: Image.network(
-                                      order.image!,
-                                      height: 80, // Smaller image size
-                                      width: 80, // Smaller image size
-                                      fit: BoxFit.cover,
-                                    ),
->>>>>>> 0bd57a3c251c25e241eaaed7d0a0aac49ca6e615
                                   )
                                 : const SizedBox(
                                     width: 80, height: 80), // Placeholder size

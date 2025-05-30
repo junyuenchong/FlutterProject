@@ -109,7 +109,7 @@ void loadUser() {
     }
   }
 
-  fetchCart() async {
+  Future<void> fetchCart() async {
     // Retrieve the logged-in user data
     Map<String, dynamic>? storedUser = box.read('loginUser');
 
