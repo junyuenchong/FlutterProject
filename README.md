@@ -21,7 +21,7 @@ A full-featured E-Commerce mobile application built with **Flutter**, powered by
 - Product Add/Edit/Delete
 
 ## 📦 Tech Stack
-- **Frontend (Mobile)**: Flutter + GetX  
+- **Frontend (Mobile)**: Flutter + Libraries used for state management in Flutte（GetX）  
 - **Backend**: Firebase (Firestore, Storage)  
 - **Authentication**: Custom authentication using Phone/Email + Password with **Bcrypt password hashing**  
 - **Database**: Cloud Firestore  
