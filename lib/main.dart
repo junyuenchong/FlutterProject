@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //AdminPage
+      //Set Home Page Only
       // home: const HomePage(),
       //UserPage
       // home: const LoginPage(),
