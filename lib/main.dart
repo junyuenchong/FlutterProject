@@ -50,13 +50,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //Set Home Page Only
-      // home: const HomePage(),
-      //UserPage
-      // home: const LoginPage(),
-      // home: const RegisterPage(),
-      // home: const UserHomePage(),
-
       initialRoute: '/login', // Set the initial route to the login page
       getPages: [
         // Define your routes
